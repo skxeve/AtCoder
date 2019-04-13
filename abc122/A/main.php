@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 $inputs = [];
@@ -12,4 +13,4 @@ $map = [
     'G' => 'C',
 ];
 $x = trim(array_shift($inputs));
-echo $map[$x];
+echo $map[$x].PHP_EOL;
