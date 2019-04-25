@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+const YES = "Yes";
+const NO = "No";
+
+fscanf(STDIN, "%d", $N);
+
+$pre_x = 0;
+$pre_y = 0;
+$pre_t = 0;
+while(($line = fgets(STDIN)) !== false) {
+    list($time, $cur_x, $cur_y) = explode(' ', $line);
+    $move_t = $time - $pre_t;
+    $move_s = abs($cur_x - $pre_x) + abs($cur_y - $pre_y);
+    if ($move_s > $move_t) {
+        echo NO.PHP_EOL;
+        exit;
+    }
+    if (($move_s % 2) != ($move_t % 2)) {
+        echo NO.PHP_EOL;
+        exit;
+    }
+
+    $pre_x = $cur_x;
+    $pre_y = $cur_y;
+    $pre_t = $time;
+}
+echo YES.PHP_EOL;
