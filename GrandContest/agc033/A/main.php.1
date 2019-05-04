@@ -1,0 +1,64 @@
+#!/usr/bin/env php
+<?php
+const BLACK = '#';
+const WHITE = '.';
+function genInputs() {
+    while(($input = rtrim(fgets(STDIN))) !== false) {
+        foreach (explode(' ', $input) as $v) {
+            yield $v;
+        }
+    }
+}
+function getNext($gen) {
+    $value = $gen->current();
+    $gen->next();
+    return $value;
+}
+$gen = genInputs();
+
+$H = (int)getNext($gen);
+$W = (int)getNext($gen);
+
+//$data = [];
+$black = [];
+$change = [];
+for ($i = 0; $i < $H; $i++) {
+    $item = getNext($gen);
+    for ($j = 0; $j < $W; $j++) {
+        //$data[$i][$j] = $item[$j];
+        if ($item[$j] == BLACK) {
+            $black[$i][$j] = 0;
+        }
+    }
+}
+$add_change = function($i, $j, $n) use($H, $W, &$change, &$add_change) {
+    if (!isset($change[$i][$j])) {
+        $change[$i][$j] = $n;
+    } elseif ($change[$i][$j] > $n) {
+        $change[$i][$j] = $n;
+    } else {
+        return;
+    }
+    $next_i = $i - 1;
+    if ($next_i >= 0) {
+        $add_change($next_i, $j, $n + 1);
+    }
+    $next_i = $i + 1;
+    if ($next_i < $H) {
+        $add_change($next_i, $j, $n + 1);
+    }
+    $next_j = $j - 1;
+    if ($next_j >= 0) {
+        $add_change($i, $next_j, $n + 1);
+    }
+    $next_j = $j + 1;
+    if ($next_j < $W) {
+        $add_change($i, $next_j, $n + 1);
+    }
+};
+foreach ($black as $i => $row) {
+    foreach ($row as $j => $item) {
+        $add_change($i, $j, 0);
+    }
+}
+echo max(array_map(function($child) { return max($child); }, $change)).PHP_EOL;
