@@ -1,0 +1,12 @@
+version: '3'
+services:
+    work:
+        build: .
+        container_name: 'atcoder'
+        working_dir: '/root'
+        tty: true
+        volumes:
+            - .:/root/work
+            - ~/.ssh/id_rsa:/root/.ssh/id_rsa
+        environment:
+            - "TZ=Asia/Tokyo"
