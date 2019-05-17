@@ -4,11 +4,32 @@ fscanf(STDIN, "%d", $N);
 $array = array_map(function($v) {return (int)$v;}, explode(' ', rtrim(fgets(STDIN))));
 
 $plus = [];
+$first_max = max($array);
+$first_min = min($array);
+
 $direct_plus = true;
-if (max($array) <= 0) {
+if ($first_min >= 0) {
+    $direct_plus = true;
+} elseif ($first_max <= 0) {
     $direct_plus = false;
-} elseif (max($array) < abs(min($array))) {
+} elseif ($first_max > abs($first_min)) {
+    $direct_plus = true;
+    $k = array_search($first_max, $array, true);
+    for ($i = 0; $i < $N; $i++) {
+        if ($array[$i] < 0) {
+            $plus[] = sprintf("%d %d", $k + 1, $i + 1);
+            $array[$i] += $array[$k];
+        }
+    }
+} else {
     $direct_plus = false;
+    $k = array_search($first_min, $array, true);
+    for ($i = 0; $i < $N; $i++) {
+        if ($array[$i] > 0) {
+            $plus[] = sprintf("%d %d", $k + 1, $i + 1);
+            $array[$i] += $array[$k];
+        }
+    }
 }
 
 if ($direct_plus) {
