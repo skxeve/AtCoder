@@ -20,8 +20,9 @@ $gen = genInputs();
 
 $S = (int)getNext($gen);
 
-$a = (int)substr($S, 0, 2);
-$b = (int)substr($S, 2);
+$a = (int)($S / 100);
+$b = (int)($S % 100);
+
 
 function valid_month($n) {
     return ($n >= 1 && $n <= 12);
