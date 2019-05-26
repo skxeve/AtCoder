@@ -24,6 +24,10 @@ for ($i = 0; $i < $N; $i++) {
     $y = (int)getNext($gen);
     $c = (string)getNext($gen);
 
+    if ($c == BLACK) {
+        $y += $K;
+    }
+
     $x = $x % ($K * 2);
     $y = $y % ($K * 2);
     if ($x < 0) { $x += $K * 2; }
@@ -63,9 +67,9 @@ for ($i = 0; $i < $N; $i++) {
                 }
             }
         }
-        if (($is_ok && $c == WHITE) || (!$is_ok && $c == BLACK)) {
+        if ($is_ok) {
             $sq[$j]++;
-        } elseif (($is_ok && $c == BLACK) || (!$is_ok && $c == WHITE)) {
+        } elseif (!$is_ok) {
             $k = $j + $K * $K;
             $sq[$k]++;
         }
